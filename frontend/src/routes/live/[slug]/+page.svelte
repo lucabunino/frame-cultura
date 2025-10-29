@@ -254,7 +254,7 @@ function hideAnchor() {
 {/if}
 {#if event.accessCtaDisplay && event.accessCtaLink && event.accessCtaLabel}
 	<a class="access shadow  btn bg-gray"
-	class:withLive={data.liveWidget && isPast(data.liveWidget.liveWidget.displayStart)}
+	class:withLive={data.liveWidget && isPast(data.liveWidget?.liveWidget?.displayStart)}
 	href={event.accessCtaLink} target="_blank" rel="noopener noreferrer"
 	style={event.accessColor ? "background-color: " + event.accessColor.hex + "; color: white;" : ""}
 	>{event.accessCtaLabel}</a>
