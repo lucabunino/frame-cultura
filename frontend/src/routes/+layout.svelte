@@ -113,7 +113,6 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 	<meta property="og:type" content="website">
 	{#if data.seo.SEOTitle}<meta property="og:site_name" content={data.seo.SEOTitle}>{/if}
 </svelte:head>
-
 <header>
 	<nav aria-label="menu" class="menu" class:open={menuOpen} class:up={header.up} class:inverted={header.inverted} bind:clientHeight={headerHeight}>
 		{#if data.info.logo}
