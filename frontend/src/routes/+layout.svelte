@@ -211,7 +211,7 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 		<div class="footer-pattern" style={`background-image: url(${urlFor(data.info.footerPatterns[randomIndex])})`}></div>
 	{/if}
 </div>
-<footer class="jost-24 mobile-jost-22" class:marginBottom={data.liveWidget && isPast(data.liveWidget.liveWidget.displayStart)}>
+<footer class="jost-24 mobile-jost-22" class:marginBottom={data.liveWidget && isPast(data.liveWidget?.liveWidget?.displayStart)}>
 	<div>
 		{#if data.info.ragioneSociale}<p>{data.info.ragioneSociale}</p>{/if}
 		{#if data.info.adressLabel}
@@ -285,7 +285,7 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 	<ProgressBar color="var(--blue)" zIndex={100}/>
 </div>
 
-{#if !page.url.pathname.includes("/live/streaming/") && data.liveWidget && isPast(data.liveWidget.liveWidget.displayStart)}
+{#if !page.url.pathname.includes("/live/streaming/") && data.liveWidget && isPast(data.liveWidget?.liveWidget?.displayStart)}
 	<Live live={data.liveWidget.liveWidget} />
 {/if}
 
