@@ -160,7 +160,7 @@ function handleMouseMove(e) {
 
 {#if data.liveIntro}<h3 id="live-intro" class:marginTop={data.liveSelection}>{data.liveIntro}</h3>{/if}
 <FiltersAndSearch data={data}
-withLive={data.liveWidget && isPast(data.liveWidget.liveWidget.displayStart)}
+withLive={data.liveWidget && isPast(data.liveWidget?.liveWidget?.displayStart)}
 displayFilterCity={true} displayFilterTopic={true} displayFilterFormat={true} section="live" placeholder="Cerca evento"/>
 {#if data.live.length > 0}
 	<section id="live" class:marginTop={!data.liveSelection}>

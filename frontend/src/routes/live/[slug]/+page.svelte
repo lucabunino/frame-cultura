@@ -239,7 +239,7 @@ function hideAnchor() {
 			</div>
 			{#if displayAnchor}
 				<a class="access shadow btn bg-gray"
-				class:withLive={data.liveWidget && isPast(data.liveWidget.liveWidget.displayStart)}
+				class:withLive={data.liveWidget && isPast(data.liveWidget?.liveWidget?.displayStart)}
 				href=#eventi
 				style={event.detailColor ? "background-color: " + event.detailColor.hex + "; color: white;" : ""}
 				transition:slide={{ axis: "y", duration: 300 }}
