@@ -7,10 +7,9 @@ import PersonTextStyle from "$lib/components/portableTextStyles/PersonTextStyle.
 import StatTextStyle from "$lib/components/portableTextStyles/StatTextStyle.svelte";
 import { urlFor } from "$lib/utils/image";
 import { slide } from "svelte/transition";
+import { innerWidth } from 'svelte/reactivity/window';
 
 let { data } = $props();
-let innerWidth = $state(undefined)
-
 let activeSection = $state(0)
 let activeSectionMobile = $state(undefined)
 let rawBlocks = data.about.body;
@@ -47,8 +46,6 @@ for (let block of processedBlocks) {
 }
 </script>
 
-<svelte:window bind:innerWidth></svelte:window>
-
 {#if data.about.introduction}
 	<section id="intro">
 		<h1 class="jost-74">{data.about.introduction}</h1>
@@ -56,7 +53,7 @@ for (let block of processedBlocks) {
 {/if}
 
 <section id="about">
-	{#if innerWidth > 800}
+	{#if innerWidth.current > 800}
 		<nav class="navigator">
 			{#each data.about.body as block, i}
 				{#if block._type === 'anchor'}

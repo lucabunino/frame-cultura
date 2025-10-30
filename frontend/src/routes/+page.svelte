@@ -82,31 +82,31 @@ function handleScroll() {
 
 	let firstEl = authorEls[0];
 	let lastEl = authorEls[authorEls.length - 1];	
-
+	
 	const firstRect = firstEl.getBoundingClientRect();
 	const lastRect = lastEl.getBoundingClientRect();
 
 	// Before first element
-	if (firstRect.top > innerHeight / 3) {
+	if (firstRect.top > innerHeight.current / 3) {
 		activeAuthorIndex = 0;
 		return;
 	}
 
 	// Past last element
-	if (lastRect.bottom < innerHeight / 3) {
+	if (lastRect.bottom < innerHeight.current / 3) {
 		activeAuthorIndex = authorEls.length - 1;
 		return;
 	}
 
 	// Track the element closest to the trigger point
-	let triggerPoint = innerHeight / 3;
+	let triggerPoint = innerHeight.current / 3;
 	let closestIndex = 0;
 	let closestOffset = Infinity;
 
 	authorEls.forEach((el, i) => {
 		const rect = el.getBoundingClientRect();
 		const offset = Math.abs(rect.top - triggerPoint);
-		if (rect.bottom > triggerPoint && rect.top < innerHeight) {
+		if (rect.bottom > triggerPoint && rect.top < innerHeight.current) {
 			if (offset < closestOffset) {
 				closestOffset = offset;
 				closestIndex = i;
