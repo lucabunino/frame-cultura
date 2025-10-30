@@ -142,11 +142,19 @@ function handleMouseLeave() {
 	-webkit-overflow-scrolling: touch;
 	width: 100vw;
 	padding-bottom: 5rem;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
 .productions-wrapper-y {
 	overflow-y: visible;
 	align-content: center;
 	justify-items: center;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.productions-wrapper-x::-webkit-scrollbar,
+.productions-wrapper-y::-webkit-scrollbar {
+	display: none;
 }
 .productions {
 	display: flex;
@@ -154,8 +162,8 @@ function handleMouseLeave() {
 	justify-content: center;
 	overflow-y: visible;
 	gap: 4px;
-	width: max-content;
-	/* justify-self: center; */
+	width: 100%;
+	height: 100%;
 }
 .production {
 	position: relative;
@@ -179,6 +187,7 @@ function handleMouseLeave() {
 	opacity: 0;
 	justify-items: center;
 	pointer-events: none;
+	width: auto;
 }
 .production-text * {
 	white-space: nowrap;

@@ -8,8 +8,8 @@ if (!PUBLIC_SANITY_PROJECT_ID || !PUBLIC_SANITY_DATASET) {
 export const client = createClient({
 	projectId: PUBLIC_SANITY_PROJECT_ID,
 	dataset: PUBLIC_SANITY_DATASET,
-	useCdn: false, // `false` if you want to ensure fresh data
-	apiVersion: '2025-07-28', // date of setup
+	useCdn: true,
+	apiVersion: '2025-07-28',
 });
 
 export async function getSeo() {
