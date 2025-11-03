@@ -179,6 +179,13 @@ function hideAnchor() {
 			}
 			}}/>
 		</div>
+		{#if event.accessCtaDisplay && event.accessCtaLink && event.accessCtaLabel}
+			<a class="access relative btn bg-gray"
+			class:withLive={data.liveWidget && isPast(data.liveWidget?.liveWidget?.displayStart)}
+			href={event.accessCtaLink} target="_blank" rel="noopener noreferrer"
+			style={event.accessColor ? "background-color: " + event.accessColor.hex + "; color: white;" : ""}
+			>{event.accessCtaLabel}</a>
+		{/if}
 	{/if}
 	{#if event.organizations}
 		<div class="organizations">
@@ -253,7 +260,7 @@ function hideAnchor() {
 	<Live live={event.live} />
 {/if}
 {#if event.accessCtaDisplay && event.accessCtaLink && event.accessCtaLabel}
-	<a class="access shadow  btn bg-gray"
+	<a class="access static shadow btn bg-gray"
 	class:withLive={data.liveWidget && isPast(data.liveWidget?.liveWidget?.displayStart)}
 	href={event.accessCtaLink} target="_blank" rel="noopener noreferrer"
 	style={event.accessColor ? "background-color: " + event.accessColor.hex + "; color: white;" : ""}
@@ -492,6 +499,13 @@ a.person:hover {
 	min-width: 250px;
 	text-align: center;
 	transform: translateX(-50%);
+}
+.access.relative {
+	position: static;
+	transform: unset;
+	margin-top: 2rem;
+	left: unset;
+	bottom: unset;
 }
 @media screen and (max-width: 1280px) {
 	.access {
