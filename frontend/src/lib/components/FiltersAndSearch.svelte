@@ -15,7 +15,8 @@ let {
 	displayFilterFormat = false,
 	displaySearch = true,
 	placeholder = "Cerca",
-	withLive = false
+	withLive = false,
+	keepPage = false
 } = $props();
 let fullWidth = $derived(!displayFilters || !displaySearch ? true : false)
 let search = $derived(page.url.searchParams.get('search') ? page.url.searchParams.get('search') : '')
@@ -144,7 +145,7 @@ style={fullWidth ? "width:100%; left:0" : ""} class="jost-15 uppercase bold" cla
 		</button>
 	{/if}
 	{#if displaySearch}
-		<SearchBar search={search} fullWidth={true} openSearch={openSearch} placeholder={placeholder}/>
+		<SearchBar search={search} fullWidth={true} openSearch={openSearch} placeholder={placeholder} keepPage={keepPage}/>
 		<button id="search-switch" style={fullWidth ? "width:100%; left:0" : ""} class="jost-12 bold uppercase mobile-only" onclick={() => {openSearch = !openSearch; openFilters ? openFilters = !openFilters : ''}} class:open={openSearch} class:active={page.url.searchParams.get('search')}>
 			Cerca
 			<svg width="13" height="13" viewBox="0 0 13 13" fill="black" xmlns="http://www.w3.org/2000/svg">

@@ -62,7 +62,7 @@ function handleScroll() {
 </section>
 
 <section id="search-author">
-	 <FiltersAndSearch data={data} marginTop={false} displayFilters={false} displayFilterTopic={true} section={"explore"} placeholder={'Cerca autore'}/>
+	 <FiltersAndSearch data={data} marginTop={false} displayFilters={false} displayFilterTopic={true} section={"explore"} placeholder={'Cerca autore'} keepPage={true}/>
 </section>
 
 <section id="authors">

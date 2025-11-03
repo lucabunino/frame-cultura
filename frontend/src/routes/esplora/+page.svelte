@@ -143,7 +143,7 @@ function handleMouseMove(e) {
 
 <FiltersAndSearch
 withLive={data.liveWidget && isPast(data.liveWidget?.liveWidget?.displayStart)}
-data={data} marginTop={!data.exploreSelection} displayFilterMedia={true} displayFilterTopic={true} section={"explore"} placeholder={'Cerca produzione'}/>
+data={data} marginTop={!data.exploreSelection} displayFilterMedia={true} displayFilterTopic={true} section={"explore"} placeholder={'Cerca produzione'} keepPage={true}/>
 
 
 {#if data.explore.length > 0}

@@ -8,7 +8,8 @@ let {
 	placeholder = "Cerca",
 	openSearch = false,
 	header = false,
-	searchOpen = $bindable(true)
+	searchOpen = $bindable(true),
+	keepPage = false
 } = $props()
 function handleKeydown(e) {
 	if (event.key === "Escape") {
@@ -24,7 +25,11 @@ onsubmit={(e) => {
 	e.preventDefault()
 	searchOpen = false
 	if (search?.trim()) {
-		goto(`/cerca?search=${encodeURIComponent(search)}`)
+		if (keepPage) {
+			goto(`?search=${encodeURIComponent(search)}`)
+		} else {
+			goto(`/cerca?search=${encodeURIComponent(search)}`)
+		}
 	}
 }}>
 	<input type="text" name="search" id="search" class="{small ? "jost-15 mobile-jost-12 bold uppercase" : "jost-27 bold"}" bind:value={search} placeholder={placeholder}>
