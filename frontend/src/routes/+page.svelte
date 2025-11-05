@@ -463,6 +463,7 @@ function onRealIndexChange(e) {
 						</swiper-slide>
 					{/each}
 				</swiper-container>
+				<a id="seeAllAuthorsMobile" href="/autori" class="btn bg-gray">Vedi tutti</a>
 		{/if}
 	</section>
 {/if}
@@ -798,6 +799,10 @@ function onRealIndexChange(e) {
 	.author .highlighted-content img {
 		height: 50px;
 		width: auto;
+	}
+	#seeAllAuthorsMobile {
+		width: fit-content;
+		margin: var(--margin);
 	}
 }
 </style>
