@@ -11,6 +11,7 @@ let now = $state(new Date());
 let clientReady = $state(false);
 let liveOpen = $state(false);
 let liveStarted = $derived(live?.start ? now >= new Date(live.start) : false)
+let liveStarted = $derived(live?.start ? now >= new Date(live.start) : false)
 $effect(() => {
 	if (browser && clientReady) {
 		localStorage.setItem("liveOpen", liveOpen);
@@ -68,11 +69,14 @@ function extractYouTubeID(url) {
 			scrolling="no"
 			frameborder="0"
 			allowfullscreen="true"
+			allowfullscreen="true"
 			allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+			allowFullScreen></iframe>
 			allowFullScreen></iframe>
 		{/if}
 	{/if}
 {:else}
+	<img src={urlFor(live.cover).width(1920)} alt="">
 	<img src={urlFor(live.cover).width(1920)} alt="">
 	<a href="/live/streaming/{live.slug.current}" class="countdown btn bg-white">Live tra {formatCountdown(countdown)}</a>
 {/if}

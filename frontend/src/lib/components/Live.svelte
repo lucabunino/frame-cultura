@@ -37,16 +37,6 @@ function formatCountdown(ms) {
 	const seconds = String(totalSeconds % 60).padStart(2, '0');
 	return `${hours}:${minutes}:${seconds}`;
 }
-function extractYouTubeID(url) {
-	const regExp = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&]+)/;
-	const match = url.match(regExp);
-	return match ? match[1] : '';
-}
-function extractVimeoID(url) {
-	const regExp = /vimeo\.com\/(\d+)/;
-	const match = url.match(regExp);
-	return match ? match[1] : '';
-}
 </script>
 
 <svelte:window></svelte:window>
@@ -56,7 +46,9 @@ function extractVimeoID(url) {
 transition:slide={{ axis: "y", duration: 500 }}
 >
 	<a href="/live/streaming/{live.slug.current}" class="title-container">
-		<div class="dot"></div>
+		{#if isPast(live.start)}
+			<div class="dot"></div>
+		{/if}
 		<h1 class="uppercase">{live.title}</h1>
 		{#if live.subtitle}<h2>{live.subtitle}</h2>{/if}
 		<button aria-label="Live switch" id="liveSwitch" onclick={(e) => {e.preventDefault(); liveOpen = !liveOpen}} class:crossed={liveOpen}>
@@ -103,8 +95,8 @@ transition:slide={{ axis: "y", duration: 500 }}
 	height: .9em;
 	aspect-ratio: 1;
 	border-radius: 999em;
-	animation: blink 1s step-start 0s infinite;
 	margin-bottom: .05em;
+	animation: blink 1s step-start 0s infinite;
 }
 @keyframes blink {
   50% {
