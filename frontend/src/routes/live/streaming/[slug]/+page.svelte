@@ -22,7 +22,7 @@ let { data } = $props();
 <section id="live-streaming" style="--bgColor:{data.liveStreaming.bgColor.hex}">
 	<h1 class="jost-74 uppercase">{data.liveStreaming.title}</h1>
 	{#if data.liveStreaming.subtitle}<h2 class="jost-45 subtitle">{data.liveStreaming.subtitle}</h2>{/if}
-	<h3 class="jost-18 bold bold uppercase"><div class="dot"></div>{isPast(data.liveStreaming.start) ? "Live streaming" : "In programma"}</h3>
+	<h3 class="jost-18 bold bold uppercase">{#if isPast(data.liveStreaming.start)}<div class="dot"></div>{/if}{isPast(data.liveStreaming.start) ? "Live streaming" : "In programma"}</h3>
 	<time class="jost-18 bold bold uppercase" datetime={data.liveStreaming.start}>{formatDate(data.liveStreaming.start)}</time>
 	<div class="live-container rounded _16-9">
 		<LiveFrame live={data.liveStreaming}/>
@@ -48,9 +48,9 @@ time {
 	height: .9em;
 	aspect-ratio: 1;
 	border-radius: 999em;
-	animation: blink 1s step-start 0s infinite;
 	margin-bottom: .05em;
 	align-self: center;
+	animation: blink 1s step-start 0s infinite;
 }
 @keyframes blink {
   50% {

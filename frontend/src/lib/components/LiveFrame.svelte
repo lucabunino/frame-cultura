@@ -10,6 +10,7 @@ let {
 let now = $state(new Date());
 let clientReady = $state(false);
 let liveOpen = $state(false);
+let liveStarted = $derived(live?.start ? now >= new Date(live.start) : false)
 $effect(() => {
 	if (browser && clientReady) {
 		localStorage.setItem("liveOpen", liveOpen);
@@ -41,16 +42,11 @@ function extractYouTubeID(url) {
 	const match = url.match(regExp);
 	return match ? match[1] : '';
 }
-function extractVimeoID(url) {
-	const regExp = /vimeo\.com\/(\d+)/;
-	const match = url.match(regExp);
-	return match ? match[1] : '';
-}
 </script>
 
 <svelte:window></svelte:window>
 
-{#if isPast(live.start)}
+{#if liveStarted}
 	{#if live.embed && live.embed.url}
 		{#if live.embed.provider === 'YouTube'}
 			<iframe
@@ -62,28 +58,17 @@ function extractVimeoID(url) {
 			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 			allowfullscreen
 			></iframe>
-		{:else if live.embed.provider === 'Vimeo'}
-			<iframe
-			title="Vimeo live: {live.title}"
-			src={`https://player.vimeo.com/video/${extractVimeoID(live.embed.url)}`}
-			width="640"
-			height="360"
-			frameborder="0"
-			allow="autoplay; fullscreen; picture-in-picture"
-			allowfullscreen
-			></iframe>
 		{:else if live.embed.provider === 'Facebook'}
 			<iframe
-			title="Facebook live: {live.title}"
-			src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(live.embed.url)}&show_text=0&width=560`}
-			width="560"
-			height="315"
+			src={live.embed.url}
+			width="1920"
+			height="1080"
 			style="border:none;overflow:hidden"
 			scrolling="no"
 			frameborder="0"
+			allowfullscreen="true"
 			allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-			allowfullscreen
-			></iframe>
+			allowFullScreen></iframe>
 		{/if}
 	{/if}
 {:else}
