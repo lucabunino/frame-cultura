@@ -1,14 +1,14 @@
 /** @type {import('@sveltejs/kit').Handle} */
 import { dev } from '$app/environment';
+import { redirect } from '@sveltejs/kit';
 
 export async function handle({ event, resolve }) {
-	const redirects = new Map([
-		['/podcast-la-ricerca-della-balena-bianca', '/esplora/la-ricerca-della-balena-bianca'],
-	]);
-
-	const target = redirects.get(event.url.pathname);
-	if (target) {
-		return Response.redirect(target, 308);
+	const { pathname } = event.url;
+	const redirects = {
+		'/podcast-la-ricerca-della-balena-bianca': '/esplora/la-ricerca-della-balena-bianca'
+	};
+	if (pathname in redirects) {
+		throw redirect(308, redirects[pathname]);
 	}
 
 	if (dev && event.url.pathname === '/.well-known/appspecific/com.chrome.devtools.json') {
