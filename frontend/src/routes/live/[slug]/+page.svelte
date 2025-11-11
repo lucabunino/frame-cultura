@@ -155,7 +155,7 @@ function hideAnchor() {
 	{#if event.production}
 		<div class="production">
 			<h4 class="jost-12 uppercase bold">Video dell'evento</h4>
-			<ProductionLive production={event.production}/>
+			<ProductionLive production={event.production} placeholder={data.info.placeholder}/>
 		</div>
 	{/if}
 	{#if event.body}

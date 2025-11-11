@@ -285,9 +285,9 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 	<ProgressBar color="var(--blue)" zIndex={100}/>
 </div>
 
-<!-- {#if !page.url.pathname.includes("/live/streaming/") && data.liveWidget && isPast(data.liveWidget?.liveWidget?.displayStart)}
+{#if !page.url.pathname.includes("/live/streaming/") && data.liveWidget && isPast(data.liveWidget?.liveWidget?.displayStart)}
 	<Live live={data.liveWidget.liveWidget} />
-{/if} -->
+{/if}
 
 {#if showBanner}
 	<div id="cookie-banner" class="jost-15 shadow rounded">

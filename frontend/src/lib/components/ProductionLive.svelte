@@ -2,7 +2,8 @@
 import { formatAuthorName } from "$lib/utils/author";
 import { urlFor } from "$lib/utils/image";
 let {
-	production
+	production,
+	placeholder
 } = $props()
 </script>
 
@@ -10,7 +11,7 @@ let {
 	<img class="cover rounded"
 	class:_1-1={production._type == "episode" || production._type == "podcast"}
 	class:_16-9={production._type == "video" || production._type == "playlist"}
-	src={urlFor(production.cover ? production.cover : data.info.placeholder).width(800)}
+	src={urlFor(production.cover ? production.cover : placeholder).width(800)}
 	alt="Copertina di {production.title}"
 	>
 	<span class="btn"
