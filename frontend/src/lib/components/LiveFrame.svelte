@@ -87,7 +87,7 @@ function extractVimeoID(url) {
 		{/if}
 	{/if}
 {:else}
-	<img src={urlFor(live.cover).width(800)} alt="">
+	<img src={urlFor(live.cover).width(1920)} alt="">
 	<a href="/live/streaming/{live.slug.current}" class="countdown btn bg-white">Live tra {formatCountdown(countdown)}</a>
 {/if}
 
