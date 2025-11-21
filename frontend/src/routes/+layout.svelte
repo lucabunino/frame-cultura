@@ -1,7 +1,7 @@
 <script>
 // Imports
 import "../app.css";
-import { dev } from '$app/environment';
+import { browser, dev } from '$app/environment';
 import { page, navigating } from '$app/state';
 import { urlFor } from '$lib/utils/image';
 import { getHeader } from '$lib/stores/header.svelte';
@@ -101,6 +101,9 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 {/if}
 
 <svelte:head>
+	{#if browser}
+		<script defer src="https://cloud.umami.is/script.js" data-website-id="4d98e478-06b0-4327-9260-2361cb0fdaa6"></script>
+	{/if}
 	{#if data.seo.SEOTitle}<title>{data.seo.SEOTitle}</title>{/if}
 	{#if data.seo.SEODescription}<meta name="description" content={data.seo.SEODescription}>{/if}
 	<link rel="canonical" href={page.url}>
