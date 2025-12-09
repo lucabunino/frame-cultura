@@ -69,6 +69,7 @@ export default {
 				name: 'url',
 				title: 'URL',
 				type: 'url',
+				description: 'For YouTube: paste the public video link (example: https://www.youtube.com/watch?v=AhsuY9JoEHo). Do NOT paste the iframe code. For Facebook: generate the embed from Facebook and copy ONLY the URL inside the "src" attribute (example: https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FFestivalCom...). Do NOT paste the full iframe.'
 				}
 			]
 		}
