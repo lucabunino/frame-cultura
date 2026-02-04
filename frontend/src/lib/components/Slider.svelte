@@ -15,7 +15,7 @@ const swiperParams = {
 $effect(() => {
 	Object.assign(swiperEl, swiperParams);
 	swiperEl.initialize();
-})
+}) 
 </script>
 
 <swiper-container
