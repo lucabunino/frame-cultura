@@ -98,6 +98,15 @@
 	letter-spacing: -.03em;
 	line-height: .9;
 }
+.jost-120 {
+	font-size: 10rem;
+	font-family: "Jost", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	letter-spacing: -.04em;
+	line-height: .85;
+}
 .jost-210 {
 	font-size: 17.5rem;
 	font-family: "Jost", sans-serif;
@@ -305,6 +314,9 @@ a:any-link.underline,
 }
 .uppercase {
 	text-transform: uppercase;
+}
+.lowercase {
+	text-transform: lowercase;
 }
 .titlecase {
 	text-transform: capitalize;

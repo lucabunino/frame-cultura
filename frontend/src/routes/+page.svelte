@@ -278,7 +278,7 @@ function onRealIndexChange(e) {
 
 {#if homepage.productionsSelection}
 	<section id="productions">
-			<h4 class="jost-54 inline-title">Produzioni</h4>{#if homepage.productionsIntro}
+			<h4 class="jost-54 inline-title">Video e podcast</h4>{#if homepage.productionsIntro}
 			<span class="section-description jost-18">{homepage.productionsIntro}</span>{/if}
 			{#if innerWidth.current > 800}
 				<ProductionsWidget productions={homepage.productionsSelection} />

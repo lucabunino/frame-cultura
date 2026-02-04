@@ -77,6 +77,46 @@ export function formatDate(startStr, endStr) {
 	return `Dal ${formatDateStr(start)}${startHasTime ? ' alle ' + formatTime(start) : ''} al ${formatDateStr(end)}${endHasTime ? ' alle ' + formatTime(end) : ''}`;
 }
 
+export function formatDateNumbers(startStr, endStr) {
+    if (!startStr) return '';
+
+    const parseDate = (str) => {
+        // Rileva stringhe solo data: "YYYY-MM-DD"
+        if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+            const [y, m, d] = str.split('-').map(Number);
+            return new Date(y, m - 1, d);
+        }
+        return new Date(str);
+    };
+
+    const start = parseDate(startStr);
+    const end = endStr ? parseDate(endStr) : null;
+
+    const pad = (n) => n.toString().padStart(2, '0');
+
+    // Formato richiesto: 24.11.26 (Giorno.Mese.AnnoBreve)
+    const formatN = (date) => {
+        const d = pad(date.getDate());
+        const m = pad(date.getMonth() + 1);
+        const y = date.getFullYear().toString().slice(-2); // Prende le ultime due cifre
+        return `${d}.${m}.${y}`;
+    };
+
+    const sameDay =
+        end &&
+        start.getDate() === end.getDate() &&
+        start.getMonth() === end.getMonth() &&
+        start.getFullYear() === end.getFullYear();
+
+    // Singola data
+    if (!end || sameDay) {
+        return formatN(start);
+    }
+
+    // Range di date (es. 24.11.26–28.11.26)
+    return `${formatN(start)}–${formatN(end)}`;
+}
+
 export function isPast(datetime) {
 	if (!datetime) return false;
 	const now = new Date();

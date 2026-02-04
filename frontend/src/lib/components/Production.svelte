@@ -36,11 +36,13 @@ let {
 .production h2, .production h3 {
 	line-height: 1.05;
 }
+.production h3 {
+	margin-top: .3em;
+}
 .production p {
 	margin-top: 1rem;
 }
 .production .cover {
 	margin-bottom: 1rem;
 }
-
 </style>

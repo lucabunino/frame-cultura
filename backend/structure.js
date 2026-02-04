@@ -7,6 +7,8 @@ export const myStructure = (S, context) => {
 			.title('Homepage')
 			.icon(HomeIcon)
 			.child(S.document().schemaType('homepage').documentId('homepage')),
+		S.documentTypeListItem('story')
+			.title('Stories'),
 		S.divider(),
 		S.listItem()
 			.title('Explore')

@@ -16,6 +16,8 @@ import { innerWidth, scrollY } from 'svelte/reactivity/window';
 
 // Variables
 let { data, children } = $props();
+$inspect(data)
+
 if (page.url.pathname == '/esplora' && data.exploreHasContent || page.url.pathname == '/live' && data.liveHasContent) {
 	header.setInverted(true)
 } else {
@@ -122,32 +124,40 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 			</a>
 		{/if}
 		<ul class="jost-74">
-			<li class="menu-item" class:active={page.url.pathname === "/esplora" || page.url.pathname.includes("/esplora/")}>
-				<a href="/esplora"
-				onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>esplora</a>
-			</li>
-			<li class="menu-item" class:active={page.url.pathname === "/autori" || page.url.pathname.includes("/autori/")}>
-				<a href="/autori"
-				onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>autori</a>
-			</li>
-			<li class="menu-item" class:active={page.url.pathname === "/live" || page.url.pathname.includes("/live/")}>
+			<li class="menu-item lowercase" class:active={page.url.pathname === "/live" || page.url.pathname.includes("/live/")}>
 				<a href="/live"
-				onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>live</a>
+				onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>Live</a>
 			</li>
-			<li class="menu-item" class:active={page.url.pathname === "/about"}>
+			<li class="menu-item lowercase" class:active={page.url.pathname === "/esplora" || page.url.pathname.includes("/esplora/")}>
+				<a href="/esplora"
+				onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>Video e podcast</a>
+			</li>
+			<li class="menu-item lowercase" class:active={page.url.pathname === "/autori" || page.url.pathname.includes("/autori/")}>
+				<a href="/autori"
+				onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>Autori</a>
+			</li>
+			{#if data.stories}
+				{#each data.stories as story}
+					<li class="menu-item lowercase" class:active={page.url.pathname === "/autori" || page.url.pathname.includes("/autori/")}>
+						<a href="/storie/{story.slug.current}"
+						onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>{story.title}</a>
+					</li>
+				{/each}
+			{/if}
+			<li class="menu-item lowercase" class:active={page.url.pathname === "/about"}>
 				<a href="/about"
 				onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}
-				>about</a>
+				>About</a>
 			</li>
-			<li class="menu-item" class:active={page.url.pathname === "/network"}>
+			<li class="menu-item lowercase" class:active={page.url.pathname === "/network"}>
 				<a href="/network"
-				onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>network</a>
+				onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>Network</a>
 			</li>
-			<li class="menu-item" class:active={page.url.pathname === "/contatti"}>
+			<li class="menu-item lowercase" class:active={page.url.pathname === "/contatti"}>
 				<a href="/contatti"
-				onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>contatti</a>
+				onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>Contatti</a>
 			</li>
-			<form id="search-bar" class="menu-item" onsubmit={(e) => {
+			<form id="search-bar" class="menu-item lowercase" onsubmit={(e) => {
 				e.preventDefault()
 				if (search?.trim()) {
 					goto(`/cerca?search=${encodeURIComponent(search)}`)
@@ -156,7 +166,7 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 			}}>
 				<input type="text" name="search" id="search" placeholder="cerca" bind:value={search}>
 				<button type="submit" id="search-submit" class="btn bg-gray">
-					cerca
+					Cerca
 				</button>
 			</form>
 		</ul>
@@ -188,7 +198,7 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 {/key}
 
 <div class="pre-footer jost-74">
-	<form id="search-bar" class="menu-item" onsubmit={(e) => {
+	<form id="search-bar" class="menu-item lowercase" onsubmit={(e) => {
 		e.preventDefault()
 		if (search?.trim()) {
 			goto(`/cerca?search=${encodeURIComponent(search)}`)
@@ -273,7 +283,7 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 			{#if data.policies}
 				{#each data.policies as policy}
 					<!-- <a href="/{policy.kind}">{policy.kind.charAt(0).toUpperCase() + policy.kind.slice(1)}</a> -->
-					<a href="/{policy.kind}">{policy.kind}</a>
+					<a href="/policy/{policy.kind}">{policy.kind}</a>
 				{/each}
 			{/if}
 		</div>
@@ -291,7 +301,7 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 
 {#if showBanner}
 	<div id="cookie-banner" class="jost-15 shadow rounded">
-		<p>Questo sito utilizza servizi di terze parti come Youtube che possono impostare cookie. Avviando la riproduzione di un video, consenti l’uso dei relativi cookie.{#each data.policies as policy}{#if policy.kind == 'cookies'}{@html ' '}Per saperne di più, consulta la nostra <a href="/cookies" class="underline">cookie policy</a>{/if}{/each}</p>
+		<p>Questo sito utilizza servizi di terze parti come Youtube che possono impostare cookie. Avviando la riproduzione di un video, consenti l’uso dei relativi cookie.{#each data.policies as policy}{#if policy.kind == 'cookies'}{@html ' '}Per saperne di più, consulta la nostra <a href="/policy/cookies" class="underline">cookie policy</a>{/if}{/each}</p>
 		<div id="cookie-btns">
 			<button id="accept-cookies" onclick={acceptCookies} class="jost-12 bold uppercase">Ok, ho capito</button>
 		</div>
@@ -335,6 +345,7 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 	flex-direction: column;
 	overflow: hidden;
 	padding: 0;
+	overflow: auto;
 }
 .menu a {
 	line-height: 1;

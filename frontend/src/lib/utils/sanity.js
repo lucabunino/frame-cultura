@@ -376,3 +376,58 @@ export function fileUrl(file) {
   const [_, id, ext] = file.asset._ref.split('-')
   return `https://cdn.sanity.io/files/${client.config().projectId}/${client.config().dataset}/${id}.${ext}`
 }
+export async function getMenuStories() {
+	return await client.fetch(`
+		*[_type == "story" && visibleMenu == true && !(_id in path('drafts.**'))] {
+			title,
+			slug
+		}`
+	);
+}
+export async function getStory(slug) {
+	return await client.fetch(`
+		*[_type in ["story"] && slug.current == $slug][0] { ...,
+			body[] {
+				...,
+				_type == "slider" => {
+					images[] {
+						...,
+						asset-> {
+							_id,
+							url,
+							altText,
+							description, 
+							metadata {
+								lqip,
+								dimensions
+							}
+						}
+					}
+				},
+				_type == "grid" => {
+					items[] {
+						...,
+						internalReference-> { ...,
+							authors[]-> { ... },
+						},
+					}
+				},
+				_type == "single" => {
+					...,
+					reference-> {
+						_type,
+						title,
+						slug
+					}
+				}
+			},
+			tableRows[] {
+                ...,
+                internalReference-> {
+                    _type,
+                    title,
+                    slug
+                },
+            },
+		}`, { slug });
+}
