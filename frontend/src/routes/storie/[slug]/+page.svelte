@@ -264,6 +264,9 @@ function hideAnchor() {
 	#hero h1 {
 		margin-top: 0;
 	}
+	#hero .btns {
+		justify-content: flex-start;
+	}
 }
 
 /* Body */

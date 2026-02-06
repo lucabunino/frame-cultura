@@ -11,25 +11,29 @@
     let swiperEl = $state(undefined);
     let isInside = $state(false);
     let domLoaded = $state(false);
-	
-	const swiperParams = {
-		slidesPerView: innerWidth.current > 800 ? 'auto' : 1.5,
-		spaceBetween: 5,
-		slidesOffsetBefore: 15,
-		slidesOffsetAfter: 15,
-		mousewheel: {
+
+	let swiperParams = $derived({
+        slidesPerView: innerWidth.current > 800 ? 'auto' : 1.5,
+        spaceBetween: 5,
+        slidesOffsetBefore: 15,
+        slidesOffsetAfter: 15,
+        mousewheel: {
             forceToAxis: true,
         },
-		grabCursor: true,
-		injectStyles: sliderInjectedStyle,
-	};
+        grabCursor: true,
+        injectStyles: sliderInjectedStyle,
+    });
 
     $effect(() => {
         if (swiperEl) {
             Object.assign(swiperEl, swiperParams);
-            swiperEl.initialize();  
+            if (swiperEl.initialized) {
+                swiperEl.swiper.update();
+            } else {
+                swiperEl.initialize();
+            }
         }
-		domLoaded = true
+        domLoaded = true;
     });
 </script>
 
@@ -48,7 +52,7 @@ class={domLoaded ? 'loaded' : undefined}
 					loading="lazy"
 				/>
 			</div>             
-			<figcaption class="jost-18">
+			<figcaption class="jost-15">
 				<strong>Fig. {i + 1}</strong>
 				{#if item.asset?.description} – {item.asset.description}{/if}
 			</figcaption>
@@ -58,7 +62,7 @@ class={domLoaded ? 'loaded' : undefined}
 
 <style>
 swiper-container {
-    margin: 8rem calc(var(--margin)*-1);
+    margin: 8rem calc(var(--margin)*-1) 4rem;
     width: stretch;
 	display: flex;
 	visibility: hidden;
@@ -83,8 +87,7 @@ swiper-slide {
     pointer-events: none;
 }
 figcaption {
-    margin-top: 1.5rem;
-    white-space: nowrap;
+    margin-top: 1rem;
 }
 .boxedTextSliderTag {
     position: fixed;
@@ -104,6 +107,7 @@ figcaption {
 	}
 	.image-box {
 		height: auto;
+		width: 100%;
 	}
 }
 </style>

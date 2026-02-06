@@ -34,17 +34,25 @@ p {
 }
 h3 {
 	flex-basis: 100%;
-	margin-top: 12rem;
-	margin-bottom: 6rem;
+	margin-top: 8rem;
+	margin-bottom: 2rem;
 	border-top: solid 1px var(--black);
 	width: 100%;
 	text-align: center;
-	padding-top: 6rem;
+	padding-top: 4rem;
 }
 li {
 	padding: 0;
 	text-indent: 0;
 	list-style-type: "— ";
     list-style-position: inside;
+}
+
+@media screen and (max-width: 800px) {
+	h3 {
+		margin-top: 4rem;
+		margin-bottom: 4rem;
+		padding-top: 2rem;
+	}
 }
 </style>
