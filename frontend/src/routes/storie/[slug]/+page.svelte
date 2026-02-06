@@ -107,7 +107,7 @@ function hideAnchor() {
 		{/if}
 		<h1 class="jost-120 uppercase">{story.title}</h1>
 		{#if story.intro}
-			<h3 class="jost-36">{story.intro}</h3>
+			<h3 class="jost-36 leading-110">{story.intro}</h3>
 		{/if}
 		{#if story.body || story.tableTitle}
 			<div class="btns">
@@ -233,7 +233,7 @@ function hideAnchor() {
 }
 #hero h3 {
 	margin-top: 2rem;
-	max-width: 600px;
+	max-width: 800px;
 }
 #hero .btns {
 	margin-top: 3rem;
@@ -249,11 +249,11 @@ function hideAnchor() {
 	}
 	#hero .bg {
 		min-height: unset;
-		height: 40vh;
+		height: 35vh;
 	}
 	#hero .text {
 		padding: 0 0 4rem;
-		margin: 4rem var(--margin) 4rem;
+		margin: 3rem var(--margin) 4rem;
 		position: relative;
 		align-items: flex-start;
 		text-align: left;

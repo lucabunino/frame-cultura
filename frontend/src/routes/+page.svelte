@@ -123,7 +123,7 @@ function onRealIndexChange(e) {
 
 <svelte:window onscroll={() => handleScroll()}></svelte:window>
 
-<section id="hero">
+<section id="hero" class={homepage.highlights ? 'highights' : 'noHighlights'}>
 	<h1 class="jost-74">{homepage.intro1}</h1>
 	{#if homepage.intro2}
 		<p>{homepage.intro2}</p>
@@ -253,7 +253,7 @@ function onRealIndexChange(e) {
 {/if}
 
 {#if homepage.liveSelection}
-	<section id="live">
+	<section id="live" class={homepage.highlights ? 'highights' : 'noHighlights'}>
 		<h4 class="jost-54 inline-title">Live</h4>
 		{#if homepage.liveIntro}<span class="section-description-inline jost-18">{homepage.liveIntro}</span>{/if}
 		<swiper-container class="events"
@@ -503,6 +503,9 @@ function onRealIndexChange(e) {
 	margin: 3rem 0 8rem;
 	max-width: 600px;
 }
+#hero.noHighlights p {
+	margin: 3rem 0 3rem;
+}
 @media screen and (max-width: 800px) {
 	#hero h1 {
 		white-space: normal;
@@ -583,6 +586,9 @@ function onRealIndexChange(e) {
 #live {
 	margin-top: 10rem;
 	padding: 2rem var(--margin);
+}
+#live.noHighlights {
+	margin-top: 6rem;
 }
 .events {
 	margin: 2rem calc(var(--margin)*-1) 4rem;
