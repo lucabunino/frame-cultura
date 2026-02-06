@@ -48,9 +48,9 @@
 <style>
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: var(--margin);
-    max-width: 1000px;
+    grid-template-columns: repeat(var(--cols), clamp(250px, 25vw, 600px));
+    column-gap: var(--margin);
+	row-gap: 4rem;
     margin: 4rem 0;
 }
 :global(.grid + .grid) {
@@ -59,7 +59,6 @@
 .grid-item {
     width: 100%;
 }
-
 .file {
     display: flex;
     flex-direction: column;
@@ -93,5 +92,11 @@
 }
 .file .cover {
 	margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 800px) {
+	.grid {
+		grid-template-columns: repeat(1, 1fr);
+	}
 }
 </style>

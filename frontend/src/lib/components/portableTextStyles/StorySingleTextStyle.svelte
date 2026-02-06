@@ -94,28 +94,33 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         max-width: 800px;
-        gap: calc(var(--margin) * 4);
+        column-gap: calc(var(--margin) * 4);
+		row-gap: 2rem;
         margin: 8rem 0;
     }
-
     .image-container img {
         width: 100%;
         display: block;
         height: auto;
     }
-
     .text {
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
-
     .description.marginTop {
         margin-top: 3rem;
     }
-
 	.btn {
 		width: fit-content;
 		margin-top: 5rem;
+	}
+	@media screen and (max-width: 800px) {
+		.single {
+			grid-template-columns: repeat(1, 1fr);
+		}
+		.image-container img {
+			max-width: 200px;
+		}
 	}
 </style>

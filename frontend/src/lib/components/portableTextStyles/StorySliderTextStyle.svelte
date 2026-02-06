@@ -34,8 +34,6 @@
 init={false}
 bind:this={swiperEl}
 loop={false}
-slides-offset-before={20}
-slides-offset-after={20}
 >
 	{#each value.images as item, i}
 		<swiper-slide class="slide">

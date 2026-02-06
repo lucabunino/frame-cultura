@@ -34,7 +34,7 @@ p {
 }
 h3 {
 	flex-basis: 100%;
-	margin-top: 16rem;
+	margin-top: 12rem;
 	margin-bottom: 6rem;
 	border-top: solid 1px var(--black);
 	width: 100%;

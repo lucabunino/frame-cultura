@@ -17,6 +17,7 @@ import StoryGridTextStyle from '$lib/components/portableTextStyles/StoryGridText
 import StoryTextStyle from '$lib/components/portableTextStyles/StoryTextStyle.svelte';
 import StorySingleTextStyle from '$lib/components/portableTextStyles/StorySingleTextStyle.svelte';
 import StorySliderTextStyle from '$lib/components/portableTextStyles/StorySliderTextStyle.svelte';
+    import { innerWidth } from 'svelte/reactivity/window';
 let header = getHeader()
 let { data } = $props();
 const story = data.story
@@ -91,24 +92,34 @@ function hideAnchor() {
 	{#if data.seo.SEOTitle}<meta property="og:site_name" content={`${data.seo.SEOTitle} — ${story.title}`}>{/if}
 </svelte:head>
 
-<section id="hero" class="{story.cover ? 'background' : undefined}" style={story.cover ? `background-image: url(${urlFor(story.cover)});` : undefined}>
-	{#if story.runningHead}
-		<h2 class="jost-21 uppercase bold">{story.runningHead}</h2>
+<!-- <section id="hero" class="{story.cover ? 'background' : undefined}" style={story.cover ? `background-image: url(${urlFor(story.cover)});` : undefined}> -->
+ <section id="hero" class="{story.cover ? 'background' : undefined}">
+	{#if story.cover}
+		{#if story.coverMobile && innerWidth.current < 800}
+			<img class="bg" src={urlFor(story.coverMobile).width(2560)} alt="Copertina di {story.title}">
+		{:else}
+			<img class="bg" src={urlFor(story.cover).width(2560)} alt="Copertina di {story.title}">
+		{/if}
 	{/if}
-	<h1 class="jost-120 uppercase">{story.title}</h1>
-	{#if story.intro}
-		<h3 class="jost-36">{story.intro}</h3>
-	{/if}
-	{#if story.body || story.tableTitle}
-		<div class="btns">
-			{#if story.body}
-				<a class="btn bg-gray" href="#body">Leggi</a>
-			{/if}
-			{#if story.tableTitle}
-				<a class="btn bg-gray" href="#table">{story.tableTitle}</a>
-			{/if}
-		</div>
-	{/if}
+	<div class="text">
+		{#if story.runningHead}
+			<h2 class="jost-21 uppercase bold">{story.runningHead}</h2>
+		{/if}
+		<h1 class="jost-120 uppercase">{story.title}</h1>
+		{#if story.intro}
+			<h3 class="jost-36">{story.intro}</h3>
+		{/if}
+		{#if story.body || story.tableTitle}
+			<div class="btns">
+				{#if story.body && story.bodyButtonLabel}
+					<a class="btn bg-gray" href="#body">{story.bodyButtonLabel}</a>
+				{/if}
+				{#if story.tableTitle && story.tableButtonLabel}
+					<a class="btn bg-gray" href="#table">{story.tableButtonLabel}</a>
+				{/if}
+			</div>
+		{/if}
+	</div>
 </section>
 
 {#if story.body}
@@ -160,7 +171,7 @@ function hideAnchor() {
 {/snippet}
 {#if story.tableTitle && story.tableRows}
     <section id="table" class="jost-18">
-        <h3 class="jost-54">{story.tableTitle}</h3>
+        <h3 class="jost-54 mobile-jost-22">{story.tableTitle}</h3>
         {#each story.tableRows as row}
             {@const ref = row.internalReference}
             {#if ref || row.externalLink}
@@ -188,152 +199,71 @@ function hideAnchor() {
 {/if}
 
 
-
-
-
-
-{#snippet eventContent(event)}
-	<h1 class="jost-74 uppercase">{story.title}</h1>
-	{#if story.subtitle}<h2 class="jost-45 mobile-jost-27 subtitle">{story.subtitle}</h2>{/if}
-	{#if story.city || story.format || story.accessCtaDisplay || isUpcoming(story.start, story.end) || isOngoing(story.start, story.end)}
-		<div class="tags">
-			{#if isUpcoming(story.start, story.end)}
-				<span class="tag upcoming">In programma</span>
-			{/if}
-			{#if isOngoing(story.start, story.end)}
-				<span class="tag ongoing">In corso</span>
-			{/if}
-			{#if story.format}
-				<a class="tag" href="/cerca?search={story.format.title}">{story.format.title}</a>
-			{/if}
-			{#if story.city}
-				<a class="tag" href="/cerca?search={story.city.title}">{story.city.title}</a>
-			{/if}
-			{#if story.accessTagDisplay && story.accessTagLabel}
-				<span class="tag bg-gray customTag"
-				style={story.accessColor ? `background-color: ${story.accessColor.hex}; color: var(--white);` : ""}
-				>{story.accessTagLabel}</span>
-			{/if}
-		</div>
-	{/if}
-	<time>{formatDate(story.start, story.end)}</time>
-	{#if story.location || story.city}
-		<p class="place">
-			{#if story.location}{story.location}{/if}{#if story.city}{#if story.location}{@html ", "}{/if}{story.city.title}{/if}
-		</p>
-	{/if}
-	{#if story.adress}
-		{#if story.adressLink}
-			<a class="underline hover-gray" href={story.adressLink} target="_blank" rel="noopener noreferrer">{story.adress}</a>
-		{:else}
-			<p>{story.adress}</p>
-		{/if}
-	{/if}
-	{#if story.people}
-		<div class="people">
-			{#each story.people.clusters as cluster, i}
-				<div class="cluster">
-					<p class="label jost-12 uppercase bold">{cluster.label}</p>
-					<div class="person-container">
-						{#each cluster.people as person, j}
-							{#if person.isAuthor}
-								<a class="person" href="/autori/{person.slug.current}">
-									<img class="portrait" src={urlFor(person.portrait ? person.portrait : data.info.placeholder)} alt="">
-									<h2 class="jost-18">{formatAuthorName(person)}</h2>
-								</a>
-							{:else}
-								<div class="person">
-									<img class="portrait" src={urlFor(person.portrait ? person.portrait : data.info.placeholder)} alt="">
-									<h2 class="jost-18">{formatAuthorName(person)}</h2>
-								</div>
-							{/if}
-						{/each}
-					</div>
-				</div>
-			{/each}
-		</div>
-	{/if}
-	{#if story.production}
-		<div class="production">
-			<h4 class="jost-12 uppercase bold">Video dell'evento</h4>
-			<ProductionLive production={story.production} placeholder={data.info.placeholder}/>
-		</div>
-	{/if}
-	{#if story.body}
-		<div class="body jost-21">
-			<PortableText
-			value={groupMultiAccordions(story.body)}
-			components={{
-			block: {
-				normal: PlainTextStyle,
-				h2: PlainTextStyle,
-				h3: PlainTextStyle,
-				h4: PlainTextStyle,
-			},
-			listItem: PlainTextStyle,
-			marks: {
-				link: PlainTextStyle,
-			},
-			types: {
-				download: DownloadTextStyle,
-				accordion: AccordionTextStyle,
-			}
-			}}/>
-		</div>
-		{#if story.accessCtaDisplay && story.accessCtaLink && story.accessCtaLabel}
-			<a class="access relative btn bg-gray"
-			class:withLive={data.liveWidget && isPast(data.liveWidget?.liveWidget?.displayStart)}
-			href={story.accessCtaLink} target="_blank" rel="noopener noreferrer"
-			style={story.accessColor ? "background-color: " + story.accessColor.hex + "; color: white;" : ""}
-			>{story.accessCtaLabel}</a>
-		{/if}
-	{/if}
-	{#if story.organizations}
-		<div class="organizations">
-			{#each story.organizations.clusters as cluster, i}
-				<div class="cluster">
-					<p class="label jost-12 uppercase bold">{cluster.label}</p>
-					<div class="organization-container">
-						{#each cluster.organizations as organization, j}
-							<div class="organization">
-								<OrganizationSmall organization={organization}/>
-							</div>
-						{/each}
-					</div>
-				</div>
-			{/each}
-		</div>
-	{/if}
-{/snippet}
-
 <style>
 /* Hero */
 #hero {
+	margin-top: calc((var(--margin)*2 + 4rem + 2rem)*-1);
+	min-height: 100svh;
+	height: auto;
+}
+#hero .bg {
+	z-index: 30;
+	width: 100%;
+	min-height: 100vh;
+	object-fit: cover;
+}
+#hero .text {
+	padding: 20vh var(--margin) 10vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding-top: 20vh;
-	margin-top: calc((var(--margin)*2 + 4rem + 2rem)*-1);
-	min-height: 100svh;
-	background-position: bottom;
-	background-size: cover;
 	text-align: center;
-}
-#hero.background {
-	height: 150vh;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: stretch;
 }
 #hero h2 {
-	margin-bottom: 4rem;
+
 }
 #hero h1 {
 	max-width: 600px;
+	margin-top: 4rem;
 }
 #hero h3 {
 	margin-top: 2rem;
-	max-width: 700px;
+	max-width: 600px;
 }
 #hero .btns {
 	margin-top: 3rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: .5em;
+}
+@media screen and (max-width: 800px) {
+	#hero {
+		min-height: unset;
+		margin-top: -2rem;
+	}
+	#hero .bg {
+		min-height: unset;
+		height: 40vh;
+	}
+	#hero .text {
+		padding: 0 0 4rem;
+		margin: 4rem var(--margin) 4rem;
+		position: relative;
+		align-items: flex-start;
+		text-align: left;
+		border-bottom: solid 1px var(--black);
+		left: unset;
+		transform: unset;
+	}
+	#hero h1 {
+		margin-top: 0;
+	}
 }
 
 /* Body */
@@ -352,7 +282,7 @@ function hideAnchor() {
 #table .row {
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
-	gap: calc(var(--margin)*2);
+	column-gap: calc(var(--margin)*2);
 	border-bottom: solid 1px var(--black);
 	padding: var(--margin) 0;
 }
@@ -371,5 +301,51 @@ function hideAnchor() {
 }
 #table .row .img {
 	grid-column: 8 / span 3;
+	width: 70%;
+	margin-left: auto;
+	min-width: 200px;
+}
+
+@media screen and (max-width: 800px) {
+	#table .row {
+		padding: 2rem 0;
+	}
+	#table .row .date {
+		grid-column: 1 / span 2;
+	}
+	#table .row .titles {
+		grid-column: 3 / span 8;
+	}
+	#table .row .body {
+		grid-column: 3 / span 8;
+		margin-bottom: var(--margin);
+	}
+	#table .row .img {
+		grid-column: 3 / span 8;
+		margin-right: auto;
+		margin-left: unset;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	#table .row .date {
+		grid-column: 1 / span 10;
+		margin-top: 1rem;
+	}
+	#table .row .titles {
+		grid-column: 1 / span 10;
+	}
+	#table .row .body {
+		grid-column: 1 / span 10;
+		margin-top: 2rem;
+		margin-bottom: 4rem;
+	}
+	#table .row .img {
+		grid-column: 1 / span 10;
+		grid-row: 1;
+		width: 100%;
+		margin-right: unset;
+		margin-left: unset;
+	}
 }
 </style>

@@ -50,22 +50,22 @@ $effect(() => {
 					slidesOffsetAfter: 15,
 				},
 				800: {
-					slidesPerView: 3.2,
+					slidesPerView: 3.8,
 					slidesOffsetBefore: 15,
 					slidesOffsetAfter: 15,
 				},
 				1200: {
-					slidesPerView: 4.2,
+					slidesPerView: 4.8,
 					slidesOffsetBefore: 21,
 					slidesOffsetAfter: 21,
 				},
 				1513: {
-					slidesPerView: 5.2,
+					slidesPerView: 5.8,
 					slidesOffsetBefore: 21,
 					slidesOffsetAfter: 21,
 				},
 				1800: {
-					slidesPerView: 6.2,
+					slidesPerView: 6.8,
 					slidesOffsetBefore: 21,
 					slidesOffsetAfter: 21,
 				},

@@ -47,6 +47,22 @@ export default {
 			group: 'Basics',
 		},
 		{
+			name: 'coverMobile',
+			description: 'Optional, replaces cover for mobile devices (used on top, not as background). Aspect ratio 16:9',
+			type: 'image',
+			group: 'Basics',
+		},
+		{
+			name: 'bodyButtonLabel',
+			type: 'string',
+			group: 'Basics',
+		},
+		{
+			name: 'tableButtonLabel',
+			type: 'string',
+			group: 'Basics',
+		},
+		{
 			name: 'body',
 			title: 'Body',
 			type: 'array',
