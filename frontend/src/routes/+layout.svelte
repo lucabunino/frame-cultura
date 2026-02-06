@@ -245,23 +245,31 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 	</div>
 	<nav>
 		<ul>
-			<li class="footer-item" class:active={page.url.pathname === "/esplora" || page.url.pathname.includes("/esplora/")}>
-				<a href="/esplora">esplora</a>
+			<li class="footer-item lowercase" class:active={page.url.pathname === "/live" || page.url.pathname.includes("/live/")}>
+				<a href="/live">Live</a>
 			</li>
-			<li class="footer-item" class:active={page.url.pathname === "/autori" || page.url.pathname.includes("/autori/")}>
-				<a href="/autori">autori</a>
+			<li class="footer-item lowercase" class:active={page.url.pathname === "/esplora" || page.url.pathname.includes("/esplora/")}>
+				<a href="/esplora">Video e podcast</a>
 			</li>
-			<li class="footer-item" class:active={page.url.pathname === "/live" || page.url.pathname.includes("/live/")}>
-				<a href="/live">live</a>
+			<li class="footer-item lowercase" class:active={page.url.pathname === "/autori" || page.url.pathname.includes("/autori/")}>
+				<a href="/autori">Autori</a>
 			</li>
-			<li class="footer-item" class:active={page.url.pathname === "/about"}>
-				<a href="/about">about</a>
+			{#if data.stories}
+				{#each data.stories as story}
+					<li class="footer-item lowercase" class:active={page.url.pathname === "/autori" || page.url.pathname.includes("/autori/")}>
+						<a href="/storie/{story.slug.current}"
+						onclick={() => {menuOpen = false, header.setUp(false), search = undefined}}>{story.title}</a>
+					</li>
+				{/each}
+			{/if}
+			<li class="footer-item lowercase" class:active={page.url.pathname === "/about"}>
+				<a href="/about">About</a>
 			</li>
-			<li class="footer-item" class:active={page.url.pathname === "/network"}>
-				<a href="/network">network</a>
+			<li class="footer-item lowercase" class:active={page.url.pathname === "/network"}>
+				<a href="/network">Network</a>
 			</li>
-			<li class="footer-item" class:active={page.url.pathname === "/contatti"}>
-				<a href="/contatti">contatti</a>
+			<li class="footer-item lowercase" class:active={page.url.pathname === "/contatti"}>
+				<a href="/contatti">Contatti</a>
 			</li>
 		</ul>
 	</nav>
@@ -282,7 +290,6 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 			{/if}
 			{#if data.policies}
 				{#each data.policies as policy}
-					<!-- <a href="/{policy.kind}">{policy.kind.charAt(0).toUpperCase() + policy.kind.slice(1)}</a> -->
 					<a href="/policy/{policy.kind}">{policy.kind}</a>
 				{/each}
 			{/if}
