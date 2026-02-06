@@ -1,4 +1,5 @@
 import homepage from './homepage'
+import story from './story'
 import explore from './explore'
 import about from './about'
 import network from './network'
@@ -22,6 +23,7 @@ import seo from './seo'
 
 export const schemaTypes = [
 	homepage,
+	story,
 	explore,
 	about,
 	network,
