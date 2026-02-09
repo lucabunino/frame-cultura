@@ -305,28 +305,23 @@ export async function getAuthors(search) {
       isAuthor == true &&
       !(_id in path('drafts.**')) &&
       (
-        // FILTRO: deve essere ampio per non far sparire i risultati
-        name match $search || 
-        surname match $search || 
-        (name + " " + surname) match $search ||
-        alias match $search ||
-        occupation match $search ||
-        bio match $search ||
-        authorBody[].children[].text match $search
+        // Usiamo l'asterisco nel filtro per trovare "Sing" in "Singer"
+        name match $search + "*" || 
+        surname match $search + "*" || 
+        (name + " " + surname) match $search + "*" ||
+        alias match $search + "*" ||
+        bio match $search + "*"
       )
     ] | order(
       select(
-        // 1. PRIORITÀ MASSIMA: Il nome completo è esattamente quello cercato
+        // 1. Priorità massima: Match esatto
         (name + " " + surname) == $search => 0,
 
-        // 2. PRIORITÀ ALTA: Il termine cercato è nel nome o nel cognome
-        name match $search || surname match $search => 1,
+        // 2. Priorità alta: Inizia esattamente con quello che hai scritto
+        name match $search + "*" || surname match $search + "*" => 1,
 
-        // 3. PRIORITÀ MEDIA: Il termine è nell'alias
-        alias match $search => 2,
-
-        // 4. TUTTO IL RESTO
-        3
+        // 3. Tutto il resto
+        2
       ) asc,
       lower(surname) asc
     )
