@@ -293,30 +293,46 @@ export async function getEvent(slug) {
 }
 export async function getAuthors(search) {
   const hasSearch = Boolean(search && search.trim());
-  const searchWildcard = hasSearch ? `*${search}*` : null;
+  const searchTerms = hasSearch ? search.trim() : null;
+
+  if (!hasSearch) {
+    return client.fetch(`*[_type == "person" && isAuthor == true && !(_id in path('drafts.**'))] | order(lower(surname) asc)`);
+  }
+
   const baseQuery = `
     *[
       _type == "person" &&
       isAuthor == true &&
       !(_id in path('drafts.**')) &&
-      _id in *[
-        _type in ["episode","podcast","video","playlist"] &&
-        !(_id in path('drafts.**'))
-      ].authors[]._ref
-      ${hasSearch ? `
-        && (
-          name match $search ||
-          surname match $search ||
-          alias match $search ||
-          occupation match $search ||
-          bio match $search ||
-          authorBody[].children[].text match $search
-        )
-      ` : ``}
-    ] | order(lower(surname) asc)
+      (
+        // FILTRO: deve essere ampio per non far sparire i risultati
+        name match $search || 
+        surname match $search || 
+        (name + " " + surname) match $search ||
+        alias match $search ||
+        occupation match $search ||
+        bio match $search ||
+        authorBody[].children[].text match $search
+      )
+    ] | order(
+      select(
+        // 1. PRIORITÀ MASSIMA: Il nome completo è esattamente quello cercato
+        (name + " " + surname) == $search => 0,
+
+        // 2. PRIORITÀ ALTA: Il termine cercato è nel nome o nel cognome
+        name match $search || surname match $search => 1,
+
+        // 3. PRIORITÀ MEDIA: Il termine è nell'alias
+        alias match $search => 2,
+
+        // 4. TUTTO IL RESTO
+        3
+      ) asc,
+      lower(surname) asc
+    )
   `;
 
-  return client.fetch(baseQuery, { search: searchWildcard });
+  return client.fetch(baseQuery, { search: searchTerms });
 }
 
 export async function getAuthor(slug) {
