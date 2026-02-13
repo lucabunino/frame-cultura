@@ -63,7 +63,7 @@ export default {
 							name: 'ctaReference',
 							description: 'Link to a content inside framecultura.it',
 							type: 'reference',
-							to: [{ type: 'podcast' }, { type: 'video' }, { type: 'playlist' }, { type: 'event' }, { type: 'eventSerie' }],
+							to: [{ type: 'podcast' }, { type: 'video' }, { type: 'playlist' }, { type: 'event' }, { type: 'eventSerie' }, { type: 'story' }],
 						},
 						{
 							name: 'ctaLink',

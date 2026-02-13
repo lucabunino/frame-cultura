@@ -152,6 +152,7 @@ function onRealIndexChange(e) {
 						podcast: 'esplora',
 						event: 'live',
 						eventSerie: 'live',
+						story: 'storie',
 					}[highlight.ctaReference._type]}/${highlight.ctaReference.slug.current}` : `${highlight.ctaLink}`}
 					target={highlight.ctaLink ? `_blank` : ``}
 					rel={highlight.ctaLink ? `noopener noreferrer` : ``}
@@ -213,6 +214,7 @@ function onRealIndexChange(e) {
 								podcast: 'esplora',
 								event: 'live',
 								eventSerie: 'live',
+								story: 'storie',
 							}[highlight.ctaReference._type]}/${highlight.ctaReference.slug.current}` : `${highlight.ctaLink}`}
 							target={highlight.ctaLink ? `_blank` : ``}
 							rel={highlight.ctaLink ? `noopener noreferrer` : ``}
