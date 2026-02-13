@@ -10,6 +10,7 @@ import { innerWidth, innerHeight, scrollY } from 'svelte/reactivity/window';
 
 let { data } = $props();
 const homepage = data.homepage
+$inspect(homepage)
 let domLoaded = $state(false)
 let activeAuthorIndex = $state(0)
 let activeAuthor = $derived(homepage.authorsSelection[activeAuthorIndex])
@@ -468,6 +469,49 @@ function onRealIndexChange(e) {
 	</section>
 {/if}
 
+{#if homepage.preFooter}
+	<section id="preFooter">
+		{#if homepage.preFooter.ctaReference || homepage.preFooter.ctaLink}
+			<a class="preFooter"
+			href={homepage.preFooter.ctaReference ? `/${{
+				video: 'esplora',
+				playlist: 'esplora',
+				podcast: 'esplora',
+				event: 'live',
+				eventSerie: 'live',
+				story: 'storie',
+			}[homepage.preFooter.ctaReference._type]}/${homepage.preFooter.ctaReference.slug.current}` : `${homepage.preFooter.ctaLink}`}
+			target={homepage.preFooter.ctaLink ? `_blank` : ``}
+			rel={homepage.preFooter.ctaLink ? `noopener noreferrer` : ``}
+			>
+				<div>
+					{#if homepage.preFooter.runningHead}<h2 class="jost-21 uppercase bold">{homepage.preFooter.runningHead}</h2>{/if}
+					<h1 class="jost-90 uppercase">{homepage.preFooter.title}</h1>
+					{#if homepage.preFooter.abstract}<h3 class="jost-18 leading-110">{homepage.preFooter.abstract}</h3>{/if}
+					{#if homepage.preFooter.ctaLabel}<button class="btn bg-gray">{homepage.preFooter.ctaLabel}</button>{/if}
+				</div>
+				<img class="bg {homepage.preFooter.backgroundImageMobile ? 'desktop-only' : undefined}" src={urlFor(homepage.preFooter.backgroundImage)} alt="Immagine di sfondo per {homepage.preFooter.title}">
+				{#if homepage.preFooter.backgroundImageMobile}
+					<img class="bg mobile-only" src={urlFor(homepage.preFooter.backgroundImageMobile)} alt="Immagine di sfondo per {homepage.preFooter.title}">
+				{/if}
+			</a>
+		{:else}
+			<div class="preFooter">
+				<div>
+					{#if homepage.preFooter.runningHead}<h2 class="jost-21 uppercase bold">{homepage.preFooter.runningHead}</h2>{/if}
+					<h1 class="jost-90 uppercase">{homepage.preFooter.title}</h1>
+					{#if homepage.preFooter.abstract}<h3 class="jost-18 leading-110">{homepage.preFooter.abstract}</h3>{/if}
+					{#if homepage.preFooter.ctaLabel}<button class="btn bg-gray">{homepage.preFooter.ctaLabel}</button>{/if}
+				</div>
+				<img class="bg {homepage.preFooter.backgroundImageMobile ? 'desktop-only' : undefined}" src={urlFor(homepage.preFooter.backgroundImage)} alt="Immagine di sfondo per {homepage.preFooter.title}">
+				{#if homepage.preFooter.backgroundImageMobile}
+					<img class="bg mobile-only" src={urlFor(homepage.preFooter.backgroundImageMobile)} alt="Immagine di sfondo per {homepage.preFooter.title}">
+				{/if}
+			</div>
+		{/if}
+	</section>
+{/if}
+
 <style>
 /* General */
 .inline-title,
@@ -809,6 +853,61 @@ function onRealIndexChange(e) {
 	#seeAllAuthorsMobile {
 		width: fit-content;
 		margin: var(--margin);
+	}
+}
+
+/* preFooter */
+#preFooter {
+	padding: 10rem 0 0;
+}
+.preFooter {
+	width: 100%;
+    height: auto;
+    display: block;
+    background-position: center;
+    background-size: cover;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	position: relative;
+}
+.preFooter>.bg {
+	width: 100vw;
+    height: auto;
+    min-height: 100vh;
+	object-fit: cover;
+}
+.preFooter>div {
+	position: absolute;
+	padding: 0 var(--margin);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+.preFooter>div h2 {
+	margin-top: 1.5rem;
+}
+.preFooter>div h1 {
+	max-width: 500px;
+	margin-top: 4rem;
+}
+.preFooter>div h3 {
+	margin-top: 3rem;
+	max-width: 500px;
+}
+.preFooter>div .btn {
+	margin-top: 5rem;
+}
+@media screen and (max-width: 1024px) {
+	#preFooter {
+		padding: 0;
+	}
+	.preFooter>.bg {
+		min-height: 80vh;
 	}
 }
 </style>

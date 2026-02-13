@@ -522,7 +522,7 @@ main.marginTop {
 
 /* Pre-footer */
 .pre-footer {
-	margin-top: 20rem;
+	margin-top: 15rem;
 }
 .footer-pattern {
   height: 50px;

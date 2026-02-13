@@ -77,12 +77,11 @@ export default {
 						},
 						{
 							name: 'backgroundImage',
-							description: 'Aspect ratio 16:9',
 							type: 'image',
 						},
 						{
 							name: 'backgroundImageMobile',
-							description: 'Aspect ratio 1:1. Optional — can be used instead of the background image on mobile devices',
+							description: 'Optional — can be used instead of the background image on mobile devices',
 							type: 'image',
 						},
 					]
@@ -151,6 +150,53 @@ export default {
 			],
 			fieldset: 'authors',
 		},
-
+		{
+			name: 'preFooter',
+			type: 'object',
+			fields: [
+				{
+					name: 'runningHead',
+					type: 'string',
+				},
+				{
+					name: 'title',
+					type: 'string',
+				},
+				{
+					name: 'subtitle',
+					type: 'string',
+				},
+				{
+					name: 'abstract',
+					type: 'text',
+					rows: 5,
+				},
+				{
+					name: 'ctaLabel',
+					type: 'string',
+				},
+				{
+					name: 'ctaReference',
+					description: 'Link to a content inside framecultura.it',
+					type: 'reference',
+					to: [{ type: 'podcast' }, { type: 'video' }, { type: 'playlist' }, { type: 'event' }, { type: 'eventSerie' }, { type: 'story' }],
+				},
+				{
+					name: 'ctaLink',
+					description: 'Link to an external website',
+					type: 'url',
+				},
+				{
+					name: 'backgroundImage',
+					description: 'Aspect ratio 16:9',
+					type: 'image',
+				},
+				{
+					name: 'backgroundImageMobile',
+					description: 'Aspect ratio 1:1. Optional — can be used instead of the background image on mobile devices',
+					type: 'image',
+				},
+			]
+		},
 	],
 };
