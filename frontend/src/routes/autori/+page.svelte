@@ -78,7 +78,7 @@ function handleScroll() {
 					<div class="more jost-15 bold"><span>+</span></div>
 				</div>
 				<h2 class="jost-27 mobile-jost-16">{formatAuthorName(author)}</h2>
-				{#if author.occupation}<h3 class="jost-18 mobile-jost-12">{author.occupation[0].toUpperCase() + author.occupation.slice(1)}</h3>{/if}
+				<!-- {#if author.occupation}<h3 class="jost-18 mobile-jost-12">{author.occupation[0].toUpperCase() + author.occupation.slice(1)}</h3>{/if} -->
 			</a>
 		{/each}
 	{/each}
