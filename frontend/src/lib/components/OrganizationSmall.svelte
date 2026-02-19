@@ -25,7 +25,7 @@ let {organization} = $props()
 	max-width: 120px;
 }
 .organization img {
-	object-fit: contain;+
+	object-fit: contain;
 	width: 100%;
 }
 @media screen and (max-width: 800px) {
