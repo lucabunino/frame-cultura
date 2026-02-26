@@ -66,42 +66,45 @@ function blocksToPlainText(blocks) {
 				<img class="portrait" src={urlFor(author.portrait ? author.portrait : data.info.placeholder)} alt="">
 				<div class="names">
 					<h1 class="jost-74 mobile-jost-27 name">{formatAuthorName(author)}</h1>
-					{#if author.occupation}<h3 class="jost-27 mobile-jost-16 occupation">{author.occupation[0].toUpperCase() + author.occupation.slice(1)}</h3>{/if}
+					{#if author.showOccupation && author.occupation}<h3 class="jost-27 mobile-jost-16 occupation">{author.occupation[0].toUpperCase() + author.occupation.slice(1)}</h3>{/if}
 				</div>
 			</div>
-			{#if author.authorBody}
-				<div class="bio jost-18">
-					<PortableText
-						value={visibleBlocks}
-						components={{
-							block: {
-								normal: PlainTextStyle,
-								h2: PlainTextStyle,
-								h3: PlainTextStyle,
-								h4: PlainTextStyle,
-							},
-							listItem: PlainTextStyle,
-							marks: { link: PlainTextStyle }
-						}}
-					/>
-				</div>
+			{#if author.showAuthorBody}
+				<!-- TODO: Make portable text only -->
+				{#if author.authorBody}
+					<div class="bio jost-18">
+						<PortableText
+							value={visibleBlocks}
+							components={{
+								block: {
+									normal: PlainTextStyle,
+									h2: PlainTextStyle,
+									h3: PlainTextStyle,
+									h4: PlainTextStyle,
+								},
+								listItem: PlainTextStyle,
+								marks: { link: PlainTextStyle }
+							}}
+						/>
+					</div>
 
-				{#if author?.authorBody && blocksToPlainText(author.authorBody).length > maxLength}
-					<button class="btn bg-gray" onclick={() => expanded = !expanded}>
-						{expanded ? 'Leggi meno' : 'Leggi di più'}
-					</button>
-				{/if}
-			{:else if author.bio}
-				{#if author.bio.length > maxLength}
-					{#if expanded}
-						<p class="jost-18 bio">{author.bio}</p>
-						<button class="btn bg-gray" onclick={() => expanded = false}>Leggi meno</button>
-					{:else}
-						<p class="jost-18 bio">{author.bio.slice(0, maxLength)}…</p>
-						<button class="btn bg-gray" onclick={() => expanded = true}>Leggi di più</button>
+					{#if author?.authorBody && blocksToPlainText(author.authorBody).length > maxLength}
+						<button class="btn bg-gray" onclick={() => expanded = !expanded}>
+							{expanded ? 'Leggi meno' : 'Leggi di più'}
+						</button>
 					{/if}
-				{:else}
-					<p class="jost-18 bio">{author.bio}</p>
+				{:else if author.bio}
+					{#if author.bio.length > maxLength}
+						{#if expanded}
+							<p class="jost-18 bio">{author.bio}</p>
+							<button class="btn bg-gray" onclick={() => expanded = false}>Leggi meno</button>
+						{:else}
+							<p class="jost-18 bio">{author.bio.slice(0, maxLength)}…</p>
+							<button class="btn bg-gray" onclick={() => expanded = true}>Leggi di più</button>
+						{/if}
+					{:else}
+						<p class="jost-18 bio">{author.bio}</p>
+					{/if}
 				{/if}
 			{/if}
 		</div>

@@ -44,7 +44,7 @@ $effect(() => {
 						<img class="portrait" src={urlFor(author.portrait ? author.portrait : data.info.placeholder)} alt="">
 						<div>
 							<h2 class="jost-18">{formatAuthorName(author)}</h2>
-							{#if author.occupation}<h3 class="jost-12">{author.occupation[0].toUpperCase() + author.occupation.slice(1)}</h3>{/if}
+							{#if author.showOccupation && author.occupation}<h3 class="jost-12">{author.occupation[0].toUpperCase() + author.occupation.slice(1)}</h3>{/if}
 						</div>
 					</a>
 				{/each}
