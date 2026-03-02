@@ -12,6 +12,20 @@ export const client = createClient({
 	apiVersion: '2025-07-28',
 });
 
+export async function getLayoutData() {
+    return await client.fetch(`{
+        "info": *[_type == "info" && !(_id in path('drafts.**'))][0] { ... },
+        "seo": *[_type == "seo" && !(_id in path('drafts.**'))][0] {
+            SEOTitle, SEODescription, SEOKeywords, SEOImage
+        },
+        "policies": *[_type == "policy" && !(_id in path('drafts.**'))] { ... },
+        "exploreHasContent": count(*[_type == "explore" && !(_id in path('drafts.**'))][0].exploreSelection) > 0,
+        "liveHasContent": count(*[_type == "live" && !(_id in path('drafts.**'))][0].liveSelection) > 0,
+        "liveWidget": *[_type == "live" && !(_id in path('drafts.**'))][0].liveWidget->{ ... },
+        "stories": *[_type == "story" && visibleMenu == true && !(_id in path('drafts.**'))] { title, slug }
+    }`);
+}
+
 export async function getSeo() {
 	return await client.fetch(`
 		*[_type == "seo" && !(_id in path('drafts.**'))][0] {
