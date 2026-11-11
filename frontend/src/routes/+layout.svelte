@@ -103,7 +103,8 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 {/if}
 
 <svelte:head>
-	{#if browser}
+	<!-- Prod only: Umami wraps history.pushState (triggers SvelteKit dev warning) and dev visits would pollute analytics -->
+	{#if browser && !dev}
 		<script defer src="https://cloud.umami.is/script.js" data-website-id="4d98e478-06b0-4327-9260-2361cb0fdaa6"></script>
 	{/if}
 	{#if data.seo.SEOTitle}<title>{data.seo.SEOTitle}</title>{/if}
@@ -194,7 +195,7 @@ function handleKey({key}) {if (key === 'G' && dev) {viewGrid = !viewGrid}}
 	</nav>
 </header>
 
-{#key data.pathname + cookieAccepted}
+{#key page.url.pathname + cookieAccepted}
 	<main class:marginTop={!header.initialInverted}>
 		{@render children()}
 	</main>

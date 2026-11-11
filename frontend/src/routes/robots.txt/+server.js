@@ -2,6 +2,9 @@ export async function GET() {
 	return new Response(
 `User-agent: *
 Disallow: /cgi-bin/
+Disallow: /*?
+
+Sitemap: https://www.framecultura.it/sitemap.xml
 `,
 		{
 			headers: {

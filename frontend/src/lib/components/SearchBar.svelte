@@ -12,7 +12,7 @@ let {
 	keepPage = false
 } = $props()
 function handleKeydown(e) {
-	if (event.key === "Escape") {
+	if (e.key === "Escape") {
 		searchOpen = false;
 	}
 }

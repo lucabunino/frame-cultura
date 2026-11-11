@@ -12,6 +12,25 @@ export const client = createClient({
 	apiVersion: '2025-07-28',
 });
 
+// Lean projections for list views — only fields used by Production.svelte,
+// Event.svelte and author cards. Avoid `{ ... }` here: full author docs
+// (bio, teamBody, authorBody) made list payloads several MB.
+const personCard = `{ _id, name, surname, alias, slug, isAuthor }`
+const productionCard = `{
+	_id, _type, title, subtitle, slug, cover,
+	// Production.svelte shows names only when < 5 authors, else "Autori vari" — 5 is enough
+	"authors": authors[0...5]->${personCard},
+	authorsPreview[]->${personCard}
+}`
+const eventCard = `{
+	_id, _type, title, subtitle, slug, cover, start, end, abstract,
+	accessCtaDisplay, accessTagDisplay, accessTagLabel, accessColor,
+	peoplePreview[]->${personCard},
+	format->{ title, slug },
+	city->{ title, slug }
+}`
+const authorCard = `{ _id, name, surname, alias, slug, portrait, occupation, showOccupation }`
+
 export async function getLayoutData() {
     return await client.fetch(`{
         "info": *[_type == "info" && !(_id in path('drafts.**'))][0] { ... },
@@ -122,11 +141,7 @@ export async function getExplore(medias = [], topic = null, search) {
           episodes[]->body[].children[].text match $search
         )
       ` : ``}
-    ]{ ...,
-      authors[]->{ ... },
-	  authorsPreview[]->{ ... },
-      topics[]->{ ... }
-    } | order(hierarchy desc, date desc, title asc)
+    ] | order(hierarchy desc, date desc, title asc) ${productionCard}
   `;
   return client.fetch(baseQuery, { medias, topic, search: searchWildcard });
 }
@@ -262,13 +277,7 @@ export async function getLive(format = null, city = null, topic = null, search) 
 				city->title match $search
 			)
 		` : ``}
-		] { ...,
-			peoplePreview[]-> { ... },
-			topics[]-> { ... },
-			format-> { ... },
-			city-> { ... },
-			authors[]-> { ... },
-		} | order(hierarchy desc, start desc, title asc)
+		] | order(hierarchy desc, start desc, title asc) ${eventCard}
 	`;
 	return client.fetch(baseQuery, { format, city, topic, search: searchWildcard });
 }
@@ -313,7 +322,7 @@ export async function getAuthors(search) {
   const searchTerms = hasSearch ? search.trim() : null;
 
   if (!hasSearch) {
-    return client.fetch(`*[_type == "person" && isAuthor == true && !(_id in path('drafts.**'))] | order(lower(surname) asc)`);
+    return client.fetch(`*[_type == "person" && isAuthor == true && !(_id in path('drafts.**'))] | order(lower(surname) asc) ${authorCard}`);
   }
 
   const baseQuery = `
@@ -341,7 +350,7 @@ export async function getAuthors(search) {
         2
       ) asc,
       lower(surname) asc
-    )
+    ) ${authorCard}
   `;
 
   return client.fetch(baseQuery, { search: searchTerms });

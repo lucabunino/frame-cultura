@@ -1,3 +1,36 @@
+// Always format in Italian time: the server (Vercel) runs in UTC, so plain
+// Date getters would render event times 1–2h early during SSR.
+const TIME_ZONE = 'Europe/Rome';
+const romeFormatter = new Intl.DateTimeFormat('en-GB', {
+	timeZone: TIME_ZONE,
+	year: 'numeric', month: 'numeric', day: 'numeric',
+	hour: 'numeric', minute: 'numeric', hourCycle: 'h23'
+});
+
+/**
+ * Parse a Sanity date/datetime string into Rome wall-clock parts.
+ * Exposes Date-like getters so formatting code stays readable.
+ */
+function parseRomeDate(str) {
+	let y, mo, d, h = 0, mi = 0;
+	// Date-only strings ("YYYY-MM-DD") have no time zone: take them literally
+	if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+		[y, mo, d] = str.split('-').map(Number);
+	} else {
+		const parts = Object.fromEntries(
+			romeFormatter.formatToParts(new Date(str)).map((p) => [p.type, p.value])
+		);
+		y = +parts.year; mo = +parts.month; d = +parts.day; h = +parts.hour; mi = +parts.minute;
+	}
+	return {
+		getFullYear: () => y,
+		getMonth: () => mo - 1, // 0-based like Date
+		getDate: () => d,
+		getHours: () => h,
+		getMinutes: () => mi
+	};
+}
+
 export function formatDate(startStr, endStr) {
 	if (!startStr) return '';
 
@@ -6,14 +39,7 @@ export function formatDate(startStr, endStr) {
 		'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'
 	];
 
-	const parseDate = (str) => {
-		// Detect date-only strings: "YYYY-MM-DD"
-		if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
-			const [y, m, d] = str.split('-').map(Number);
-			return new Date(y, m - 1, d); // JS months are 0-based
-		}
-		return new Date(str);
-	};
+	const parseDate = parseRomeDate;
 
 	const start = parseDate(startStr);
 	const end = endStr ? parseDate(endStr) : null;
@@ -80,14 +106,7 @@ export function formatDate(startStr, endStr) {
 export function formatDateNumbers(startStr, endStr) {
     if (!startStr) return '';
 
-    const parseDate = (str) => {
-        // Rileva stringhe solo data: "YYYY-MM-DD"
-        if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
-            const [y, m, d] = str.split('-').map(Number);
-            return new Date(y, m - 1, d);
-        }
-        return new Date(str);
-    };
+    const parseDate = parseRomeDate;
 
     const start = parseDate(startStr);
     const end = endStr ? parseDate(endStr) : null;
